@@ -10,5 +10,11 @@ namespace GameSystems.CharacterSystem
         protected GameObject gameObject;
         protected AudioSource audioSource;
         protected NavMeshAgent navMeshAgent;
+        protected Animation animation;
+
+        public void PlayAnimation(string animName)
+        {
+            animation.CrossFade(animName);
+        }
     }
 }

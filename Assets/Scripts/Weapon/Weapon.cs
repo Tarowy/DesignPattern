@@ -15,14 +15,84 @@ namespace Weapon
         protected float range;
         protected float criticalMulti;
 
-        protected GameObject gameObject;
+        protected GameObject weaponPrefab;
         protected Character owner;
-        
+
         protected ParticleSystem particleSystem;
         protected LineRenderer lineRender;
         protected Light light;
         protected AudioSource audioSource;
 
-        public abstract void Fire(Vector3 position);
+        protected float effectDisplayTime;
+
+        public void Update()
+        {
+            if (effectDisplayTime > 0)
+            {
+                effectDisplayTime -= Time.deltaTime;
+                if (effectDisplayTime <= 0)
+                {
+                    DisableEffect();
+                }
+            }
+        }
+
+        protected abstract void SetEffectDisplayTime();
+
+        /*
+         * 在模板模式（Template Pattern）中，一个抽象类公开定义了执行它的方法的方式/模板。
+         * 它的子类可以按需要重写方法实现，但调用将以抽象类中定义的方式进行。
+         * 这种类型的设计模式属于行为型模式。
+         * https://www.runoob.com/design-pattern/template-pattern.html
+         */
+        public void Fire(Vector3 position)
+        {
+            PlayMuzzleEffect();
+            PlayBulletEffect(position);
+            SetEffectDisplayTime();
+            PlayWeaponSound();
+        }
+
+        /// <summary>
+        /// 枪口特效
+        /// </summary>
+        protected virtual void PlayMuzzleEffect()
+        {
+            particleSystem.Stop();
+            particleSystem.Play();
+            light.enabled = true;
+        }
+
+        protected abstract void PlayBulletEffect(Vector3 targetPosition);
+
+        /// <summary>
+        /// 子弹特效
+        /// </summary>
+        protected virtual void BulletEffect(float width, Vector3 targetPosition)
+        {
+            lineRender.enabled = true;
+            lineRender.startWidth = lineRender.endWidth = width;
+            //设置lineRender顶点的位置
+            lineRender.SetPosition(0, weaponPrefab.transform.position);
+            lineRender.SetPosition(1, targetPosition);
+        }
+
+        protected abstract void PlayWeaponSound();
+
+        /// <summary>
+        /// 武器声音
+        /// </summary>
+        protected virtual void WeaponSound(string clipName)
+        {
+            AudioClip audioClip = null;
+            audioSource.clip = audioClip;
+            audioSource.Play();
+        }
+
+        protected void DisableEffect()
+        {
+            lineRender.enabled = false;
+            light.enabled = false;
+        }
     }
 }
