@@ -4,13 +4,32 @@ using UnityEngine;
 
 namespace GameSystems.CharacterSystem.Solider.AI
 {
+    /// <summary>
+    /// 有限状态机的核心，需要靠它来转换不同的状态
+    /// </summary>
     public class SoliderFsmSystem
     {
         protected List<SoliderState> stateList = new();
 
         protected SoliderState currentState;
-        protected SoliderState CurrentState => currentState;
+        public SoliderState CurrentState => currentState;
 
+        /// <summary>
+        /// 可变长参数，将所有状态都添加到状态机中
+        /// </summary>
+        /// <param name="states"></param>
+        public void AddState(params SoliderState[] states)
+        {
+            foreach (var s in states)
+            {
+                AddState(s);
+            }
+        }
+        
+        /// <summary>
+        /// 添加一个状态
+        /// </summary>
+        /// <param name="state"></param>
         public void AddState(SoliderState state)
         {
             if (state == null)

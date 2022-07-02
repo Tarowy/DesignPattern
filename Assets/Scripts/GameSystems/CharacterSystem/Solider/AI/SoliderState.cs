@@ -25,13 +25,23 @@ namespace GameSystems.CharacterSystem.Solider.AI
         Attack
     }
 
+    /// <summary>
+    /// 士兵的状态类
+    /// </summary>
     public abstract class SoliderState
     {
+        //由子类调用FSM的Transition来转换其中储存的状态
         protected Dictionary<SoliderTransition, SoliderStateID> states = new();
         protected SoliderStateID stateID;
         public Character character; //该状态属于哪个角色
         public SoliderFsmSystem fsmSystem;
-        
+
+        public SoliderState(SoliderFsmSystem system,Character character)
+        {
+            fsmSystem = system;
+            this.character = character;
+        }
+
         public SoliderStateID SoliderStateID => stateID;
 
         public void AddTransition(SoliderTransition transition, SoliderStateID id)
@@ -82,6 +92,6 @@ namespace GameSystems.CharacterSystem.Solider.AI
         public virtual void DoBeforeLeaving() {}
 
         public abstract void Reason(List<Character> characters);
-        public abstract void Act();
+        public abstract void Act(List<Character> characters);
     }
 }

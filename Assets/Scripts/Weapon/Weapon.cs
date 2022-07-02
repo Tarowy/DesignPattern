@@ -25,6 +25,8 @@ namespace Weapon
 
         protected float effectDisplayTime;
 
+        public float WeaponRange => range;
+
         public void Update()
         {
             if (effectDisplayTime > 0)
