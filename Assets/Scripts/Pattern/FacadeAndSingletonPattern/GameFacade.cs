@@ -5,6 +5,7 @@ using GameSystems.EnergySystem;
 using GameSystems.GameEventSystem;
 using GameSystems.StageSystem;
 using GameSystems.UserInterfaceSystem;
+using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
 namespace Pattern.FacadeAndSingletonPattern
@@ -85,6 +86,11 @@ namespace Pattern.FacadeAndSingletonPattern
             _gamePauseUI.Release();
             _stateInfoUI.Release();
             _soliderInfoUI.Release();
+        }
+
+        public Vector3 GetEnemyTargetPosition()
+        {
+            return Vector3.zero;
         }
     }
 }

@@ -2,23 +2,20 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace GameSystems.CharacterSystem.Solider.AI
+namespace GameSystems.CharacterSystem.Enemy.AI
 {
-    /// <summary>
-    /// 有限状态机的核心，需要靠它来转换不同的状态
-    /// </summary>
-    public class SoliderFsmSystem
+    public class EnemyFsmSystem
     {
-        protected List<SoliderState> stateList = new();
+        protected List<EnemyState> stateList = new();
 
-        protected SoliderState currentState;
-        public SoliderState CurrentState => currentState;
+        protected EnemyState currentState;
+        public EnemyState CurrentState => currentState;
 
         /// <summary>
         /// 可变长参数，将所有状态都添加到状态机中
         /// </summary>
         /// <param name="states"></param>
-        public void AddState(params SoliderState[] states)
+        public void AddState(params EnemyState[] states)
         {
             foreach (var s in states)
             {
@@ -30,11 +27,11 @@ namespace GameSystems.CharacterSystem.Solider.AI
         /// 添加一个状态
         /// </summary>
         /// <param name="state"></param>
-        public void AddState(SoliderState state)
+        public void AddState(EnemyState state)
         {
             if (state == null)
             {
-                Debug.LogError("SoliderState为空");
+                Debug.LogError("EnemyState为空");
                 return;
             }
 
@@ -46,7 +43,7 @@ namespace GameSystems.CharacterSystem.Solider.AI
                 return;
             }
 
-            if (stateList.Any(s => s.SoliderStateID == state.SoliderStateID))
+            if (stateList.Any(s => s.EnemyStateID == state.EnemyStateID))
             {
                 Debug.LogError($"{state}已存在");
                 return;
@@ -55,15 +52,15 @@ namespace GameSystems.CharacterSystem.Solider.AI
             stateList.Add(state);
         }
 
-        public void DeleteState(SoliderStateID stateID)
+        public void DeleteState(EnemyStateID stateID)
         {
-            if (stateID == SoliderStateID.NullState)
+            if (stateID == EnemyStateID.NullState)
             {
                 Debug.LogError($"{stateID}为空状态");
                 return;
             }
 
-            foreach (var s in stateList.Where(s => s.SoliderStateID == stateID))
+            foreach (var s in stateList.Where(s => s.EnemyStateID == stateID))
             {
                 stateList.Remove(s);
                 return;
@@ -72,20 +69,20 @@ namespace GameSystems.CharacterSystem.Solider.AI
             Debug.LogError($"{stateID}不存在");
         }
 
-        public void PerformTransition(SoliderTransition transition)
+        public void PerformTransition(EnemyTransition transition)
         {
-            if (transition == SoliderTransition.NullTransition)
+            if (transition == EnemyTransition.NullTransition)
             {
                 Debug.LogError("转换条件为空");
             }
 
             var nextState = currentState.GetOutputState(transition);
-            if (nextState==SoliderStateID.NullState)
+            if (nextState==EnemyStateID.NullState)
             {
                 Debug.LogError($"要转换的{nextState}状态为空");
             }
 
-            foreach (var s in stateList.Where(s=>s.SoliderStateID==nextState))
+            foreach (var s in stateList.Where(s=>s.EnemyStateID==nextState))
             {
                 currentState.DoBeforeLeaving();
                 currentState = s;
