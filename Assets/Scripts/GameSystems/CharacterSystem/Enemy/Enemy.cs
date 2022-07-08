@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using GameSystems.CharacterSystem.Enemy.AI;
+using UnityEngine;
 
 namespace GameSystems.CharacterSystem.Enemy
 {
-    public class Enemy: Character
+    public abstract class Enemy: Character
     {
         protected EnemyFsmSystem enemyFsmSystem;
 
@@ -12,7 +13,7 @@ namespace GameSystems.CharacterSystem.Enemy
             MakeFsm();
         }
         
-        public void UpdateFsmAI(List<Character> characters)
+        public override void UpdateFsmAI(List<Character> characters)
         {
             enemyFsmSystem.CurrentState.Reason(characters);
             enemyFsmSystem.CurrentState.Act(characters);
@@ -30,5 +31,18 @@ namespace GameSystems.CharacterSystem.Enemy
 
             enemyFsmSystem.AddState(enemyChaseState, enemyAttackState);
         }
+
+        public override void GetDamage(int damage)
+        {
+            base.GetDamage(damage);
+            PlayEffect();
+
+            if (characterAttr.currentHp <= 0)
+            {
+                Dead();
+            }
+        }
+
+        public abstract void PlayEffect();
     }
 }

@@ -10,6 +10,6 @@ namespace GameSystems.CharacterSystem.AttrStrategy
     {
         int GetExtraHp(int level); //额外生命
         int GetDamageReduceValue(int level); //伤害减免值
-        int GetCriticalDamage(int criticalRate); //暴击伤害
+        int GetCriticalDamage(float criticalRate); //暴击伤害
     }
 }

@@ -16,7 +16,7 @@ namespace GameSystems.CharacterSystem.Solider
         /// 更新AI状态
         /// </summary>
         /// <param name="characters"></param>
-        public void UpdateFsmAI(List<Character> characters)
+        public override void UpdateFsmAI(List<Character> characters)
         {
             fsmSystem.CurrentState.Reason(characters);
             fsmSystem.CurrentState.Act(characters);
@@ -56,5 +56,21 @@ namespace GameSystems.CharacterSystem.Solider
 
             fsmSystem.AddState(soliderIdleState, soliderChaseState, soliderAttackState);
         }
+
+        public override void GetDamage(int damage)
+        {
+            base.GetDamage(damage);
+            PlayEffect();
+
+            if (characterAttr.currentHp <= 0)
+            {
+                PlayEffect();
+                PlaySound();
+                Dead();
+            }
+        }
+
+        public abstract void PlayEffect();
+        public abstract void PlaySound();
     }
 }

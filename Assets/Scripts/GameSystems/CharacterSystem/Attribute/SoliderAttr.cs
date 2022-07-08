@@ -2,9 +2,9 @@ using GameSystems.CharacterSystem.AttrStrategy;
 
 namespace GameSystems.CharacterSystem.Attribute
 {
-    public class EnemyAttr: CharacterAttr
+    public class SoliderAttr: CharacterAttr
     {
-        public EnemyAttr(IAttrStrategy strategy) : base(strategy)
+        public SoliderAttr(IAttrStrategy strategy) : base(strategy)
         {
             
         }

@@ -6,6 +6,6 @@ namespace GameSystems.CharacterSystem.AttrStrategy
 
         public int GetDamageReduceValue(int level) => (level - 1) * 5;
 
-        public int GetCriticalDamage(int criticalRate) => 0;
+        public int GetCriticalDamage(float criticalRate) => 0;
     }
 }

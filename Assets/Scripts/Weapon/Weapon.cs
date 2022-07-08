@@ -11,7 +11,7 @@ namespace Weapon
     /// </summary>
     public abstract class Weapon
     {
-        protected int damage;
+        public int damage;
         protected float range;
         protected float criticalMulti;
 
