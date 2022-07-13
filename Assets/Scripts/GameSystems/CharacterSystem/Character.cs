@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using Factory;
 using GameSystems.CharacterSystem.Attribute;
+using MonoBe;
+using Tools;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,6 +20,32 @@ namespace GameSystems.CharacterSystem
         public Vector3 Position => characterObject ? characterObject.transform.position : Vector3.zero;
 
         public float WeaponRange => weapon.WeaponRange;
+
+        public CharacterAttr CharacterAttr
+        {
+            set => characterAttr = value;
+        }
+
+        public GameObject CharacterObject
+        {
+            set
+            {
+                characterObject = value;
+                audioSource = characterObject.GetComponent<AudioSource>();
+                navMeshAgent = characterObject.GetComponent<NavMeshAgent>();
+                animation = characterObject.GetComponentInChildren<Animation>();
+            }
+        }
+
+        public Weapon.Weapon Weapon
+        {
+            set
+            {
+                weapon = value;
+                weapon.Owner = this;
+                UnityTools.Attach(UnityTools.FindChild(characterObject, "weapon-point"), weapon.WeaponPrefab);
+            }
+        }
 
         public abstract void UpdateFsmAI(List<Character> characters);
 
@@ -44,30 +73,30 @@ namespace GameSystems.CharacterSystem
         {
             characterAttr.GetDamage(damage);
             //被攻击的特效(只有敌人有)
-            
-            
-            //死亡的特效、音效(只有战士有)
 
+
+            //死亡的特效、音效(只有战士有)
         }
 
         public void Dead()
         {
-            
         }
 
         public void Update()
         {
             weapon.Update();
         }
-        
+
         public virtual void Effect(string effectName)
         {
-            GameObject effectResource;
+            var effectResource=FactoryManager.AssetFactory.LoadEffect(effectName);
+            effectResource.transform.position = Position;
+            effectResource.AddComponent<DestroyEffect>();
         }
 
         public virtual void Sound(string soundName)
         {
-            AudioClip clip = null;
+            var clip = FactoryManager.AssetFactory.LoadAudioClip(soundName);
             audioSource.clip = clip;
             audioSource.Play();
         }

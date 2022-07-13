@@ -9,5 +9,9 @@ namespace Weapon
         protected override void PlayBulletEffect(Vector3 targetPosition) => BulletEffect(0.05f, targetPosition);
 
         protected override void PlayWeaponSound() => WeaponSound("GunShot");
+
+        public Gun(int damage, float range, GameObject weaponPrefab) : base(damage, range, weaponPrefab)
+        {
+        }
     }
 }

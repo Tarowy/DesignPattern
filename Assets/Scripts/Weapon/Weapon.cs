@@ -1,8 +1,15 @@
+using Factory;
 using GameSystems.CharacterSystem;
 using UnityEngine;
 
 namespace Weapon
 {
+    public enum WeaponType
+    {
+        Rocket,
+        Rifle,
+        Gun
+    }
     /// <summary>
     /// 桥接（Bridge）是用于把抽象化与实现化解耦，使得二者可以独立变化。
     /// 这种类型的设计模式属于结构型模式，它通过提供抽象化和实现化之间的桥接结构，来实现二者的解耦。
@@ -16,17 +23,37 @@ namespace Weapon
         protected float criticalMulti;
 
         protected GameObject weaponPrefab;
-        protected Character owner;
 
         protected ParticleSystem particleSystem;
         protected LineRenderer lineRender;
         protected Light light;
         protected AudioSource audioSource;
 
+        protected Character owner;
         protected float effectDisplayTime;
 
         public float WeaponRange => range;
 
+        protected Weapon(int damage,float range,GameObject weaponPrefab)
+        {
+            this.damage = damage;
+            this.range = range;
+            this.weaponPrefab = weaponPrefab;
+
+            var effect= weaponPrefab.transform.Find("Effect");
+            particleSystem = effect.GetComponent<ParticleSystem>();
+            lineRender = effect.GetComponent<LineRenderer>();
+            light = effect.GetComponent<Light>();
+            audioSource = effect.GetComponent<AudioSource>();
+        }
+
+        public Character Owner
+        {
+            set => owner = value;
+        }
+
+        public GameObject WeaponPrefab => weaponPrefab;
+        
         public void Update()
         {
             if (effectDisplayTime > 0)
@@ -86,7 +113,7 @@ namespace Weapon
         /// </summary>
         protected virtual void WeaponSound(string clipName)
         {
-            AudioClip audioClip = null;
+            var audioClip = FactoryManager.AssetFactory.LoadAudioClip(clipName);
             audioSource.clip = audioClip;
             audioSource.Play();
         }
