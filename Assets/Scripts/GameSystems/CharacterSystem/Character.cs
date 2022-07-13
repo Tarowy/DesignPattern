@@ -24,6 +24,7 @@ namespace GameSystems.CharacterSystem
         public CharacterAttr CharacterAttr
         {
             set => characterAttr = value;
+            get => characterAttr;
         }
 
         public GameObject CharacterObject

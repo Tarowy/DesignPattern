@@ -37,6 +37,8 @@ namespace GameSystems.CharacterSystem.Attribute
 
         public int CriticalValue => attrStrategy.GetCriticalDamage(criticalRate);
 
+        public string PrefabName => prefabName;
+
 
         public void GetDamage(int damage)
         {
