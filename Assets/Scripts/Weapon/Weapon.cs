@@ -1,6 +1,7 @@
 using Factory;
 using GameSystems.CharacterSystem;
 using UnityEngine;
+using Weapon.Attr;
 
 namespace Weapon
 {
@@ -18,8 +19,7 @@ namespace Weapon
     /// </summary>
     public abstract class Weapon
     {
-        public int damage;
-        protected float range;
+        protected WeaponBaseAttr weaponBaseAttr;
         protected float criticalMulti;
 
         protected GameObject weaponPrefab;
@@ -32,12 +32,9 @@ namespace Weapon
         protected Character owner;
         protected float effectDisplayTime;
 
-        public float WeaponRange => range;
-
-        protected Weapon(int damage,float range,GameObject weaponPrefab)
+        protected Weapon(WeaponBaseAttr weaponBaseAttr, GameObject weaponPrefab)
         {
-            this.damage = damage;
-            this.range = range;
+            this.weaponBaseAttr = weaponBaseAttr;
             this.weaponPrefab = weaponPrefab;
 
             var effect= weaponPrefab.transform.Find("Effect");
@@ -46,6 +43,10 @@ namespace Weapon
             light = effect.GetComponent<Light>();
             audioSource = effect.GetComponent<AudioSource>();
         }
+
+        public WeaponBaseAttr WeaponBaseAttr => weaponBaseAttr;
+
+        public float WeaponRange => weaponBaseAttr.Range;
 
         public Character Owner
         {

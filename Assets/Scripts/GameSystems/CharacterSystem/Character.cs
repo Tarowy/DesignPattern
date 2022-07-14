@@ -67,7 +67,7 @@ namespace GameSystems.CharacterSystem
             characterObject.transform.LookAt(target.Position);
             weapon.Fire(target.Position);
             PlayAnimation("Attack");
-            target.GetDamage(weapon.damage + characterAttr.CriticalValue);
+            target.GetDamage(weapon.WeaponBaseAttr.Damage + characterAttr.CriticalValue);
         }
 
         public virtual void GetDamage(int damage)

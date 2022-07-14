@@ -9,23 +9,15 @@ namespace Factory.WeaponFactory
         public Weapon.Weapon CreateWeapon(WeaponType weaponType)
         {
             Weapon.Weapon weapon = null;
-            var assetName = "";
-
-            assetName = weaponType switch
-            {
-                WeaponType.Gun => "WeaponGun",
-                WeaponType.Rifle => "WeaponRifle",
-                WeaponType.Rocket => "WeaponRocket",
-                _ => assetName
-            };
-
-            var loadWeapon = FactoryManager.AssetFactory.LoadWeapon(assetName);
+            
+            var attr = FactoryManager.AttrFactory.GetWeaponBaseAttr(weaponType);
+            var loadWeapon = FactoryManager.AssetFactory.LoadWeapon(attr.AssetName);
 
             weapon = weaponType switch
             {
-                WeaponType.Gun => new Gun(20, 5, loadWeapon),
-                WeaponType.Rifle => new Rifle(30, 7, loadWeapon),
-                WeaponType.Rocket => new Rocket(40, 8, loadWeapon),
+                WeaponType.Gun => new Gun(attr, loadWeapon),
+                WeaponType.Rifle => new Rifle(attr, loadWeapon),
+                WeaponType.Rocket => new Rocket(attr, loadWeapon),
                 _ => null
             };
 

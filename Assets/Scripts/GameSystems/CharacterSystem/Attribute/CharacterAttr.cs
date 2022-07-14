@@ -4,15 +4,10 @@ namespace GameSystems.CharacterSystem.Attribute
 {
     public class CharacterAttr
     {
-        protected string name;
-        protected int maxHp;
-        protected float moveSpeed;
-        protected string iconPath;
-        protected string prefabName;
-
+        protected CharacterBaseAttr characterBaseAttr;
+        
         public int currentHp;
         protected int level;
-        protected float criticalRate;
 
         protected IAttrStrategy attrStrategy;
 
@@ -20,24 +15,20 @@ namespace GameSystems.CharacterSystem.Attribute
         public int damageDescValue;
         
         public CharacterAttr
-            (IAttrStrategy strategy,int level,string name,int maxHp,float moveSpeed,string iconPath,string prefabName)
+            (IAttrStrategy strategy,int level,CharacterBaseAttr characterBaseAttr)
         {
             attrStrategy = strategy;
-            this.name = name;
-            this.maxHp = maxHp;
-            this.moveSpeed = moveSpeed;
-            this.iconPath = iconPath;
-            this.prefabName = prefabName;
+            this.characterBaseAttr = characterBaseAttr;
             this.level = level;
             
             //一个角色的伤害减免从一出生就固定，所以只需要一开始赋值
             damageDescValue = attrStrategy.GetDamageReduceValue(level);
-            currentHp = maxHp + attrStrategy.GetExtraHp(level);
+            currentHp = this.characterBaseAttr.MaxHp + attrStrategy.GetExtraHp(level);
         }
 
-        public int CriticalValue => attrStrategy.GetCriticalDamage(criticalRate);
+        public int CriticalValue => attrStrategy.GetCriticalDamage(characterBaseAttr.CriticalRate);
 
-        public string PrefabName => prefabName;
+        public string PrefabName => characterBaseAttr.PrefabName;
 
 
         public void GetDamage(int damage)

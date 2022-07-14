@@ -1,8 +1,9 @@
 using UnityEngine;
+using Weapon.Attr;
 
 namespace Weapon
 {
-    public class Gun: Weapon
+    public class Gun : Weapon
     {
         protected override void SetEffectDisplayTime() => effectDisplayTime = 0.2f;
 
@@ -10,7 +11,8 @@ namespace Weapon
 
         protected override void PlayWeaponSound() => WeaponSound("GunShot");
 
-        public Gun(int damage, float range, GameObject weaponPrefab) : base(damage, range, weaponPrefab)
+        public Gun(WeaponBaseAttr weaponBaseAttr, GameObject weaponPrefab) : base(
+            weaponBaseAttr, weaponPrefab)
         {
         }
     }
