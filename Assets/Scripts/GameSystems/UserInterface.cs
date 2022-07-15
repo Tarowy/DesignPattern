@@ -1,7 +1,11 @@
+using UnityEngine;
+
 namespace GameSystems
 {
     public abstract class UserInterface
     {
+        protected GameObject rootUI;
+        
         public virtual void Init()
         {
         }
