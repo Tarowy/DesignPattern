@@ -11,7 +11,7 @@ namespace Factory.AssetFactory
         private const string WeaponPath = "Weapons/";
         private const string AudioPath = "Audios/";
         private const string SpritePath = "Sprites/";
-        
+
         public GameObject LoadSolider(string name)
         {
             return InstantiateGameObject(SoliderPath + name);
@@ -29,7 +29,8 @@ namespace Factory.AssetFactory
 
         public Sprite LoadSprite(string name)
         {
-            return InstantiateObject(SpritePath + name) as Sprite;
+            //非GameObject资源的加载方式
+            return Resources.Load(SpritePath + name, typeof(Sprite)) as Sprite;
         }
 
         public GameObject LoadEffect(string name)
@@ -39,7 +40,7 @@ namespace Factory.AssetFactory
 
         public AudioClip LoadAudioClip(string name)
         {
-            return InstantiateObject(AudioPath + name) as AudioClip;
+            return Resources.Load(AudioPath + name) as AudioClip;
         }
 
         private GameObject InstantiateGameObject(string path)

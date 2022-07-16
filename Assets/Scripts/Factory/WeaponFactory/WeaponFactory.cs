@@ -1,4 +1,5 @@
 using Factory.AssetFactory;
+using Tools;
 using UnityEngine;
 using Weapon;
 
@@ -11,7 +12,7 @@ namespace Factory.WeaponFactory
             Weapon.Weapon weapon = null;
             
             var attr = FactoryManager.AttrFactory.GetWeaponBaseAttr(weaponType);
-            var loadWeapon = FactoryManager.AssetFactory.LoadWeapon(attr.AssetName);
+            var loadWeapon = InstantiateTool.InstantiateObj(FactoryManager.AssetFactory.LoadWeapon(attr.AssetName));
 
             weapon = weaponType switch
             {

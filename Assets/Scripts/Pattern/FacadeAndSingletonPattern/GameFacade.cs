@@ -1,6 +1,8 @@
 using GameSystems.AchievementSystem;
 using GameSystems.CampSystem;
 using GameSystems.CharacterSystem;
+using GameSystems.CharacterSystem.Enemy;
+using GameSystems.CharacterSystem.Solider;
 using GameSystems.EnergySystem;
 using GameSystems.GameEventSystem;
 using GameSystems.StageSystem;
@@ -31,17 +33,17 @@ namespace Pattern.FacadeAndSingletonPattern
         private bool _gameOver;
         public bool GameOver => _gameOver;
 
-        private AchievementSystem _achievementSystem;
-        private CampSystem _campSystem;
-        private CharacterSystem _characterSystem;
-        private EnergySystem _energySystem;
-        private GameEventSystem _gameEventSystem;
-        private StageSystem _stageSystem;
+        private AchievementSystem _achievementSystem = new();
+        private CampSystem _campSystem = new();
+        private CharacterSystem _characterSystem = new();
+        private EnergySystem _energySystem = new();
+        private GameEventSystem _gameEventSystem = new();
+        private StageSystem _stageSystem = new();
 
-        private CampInfoUI _campInfoUI;
-        private GamePauseUI _gamePauseUI;
-        private GameStateInfoUI _stateInfoUI;
-        private SoliderInfoUI _soliderInfoUI;
+        private CampInfoUI _campInfoUI = new();
+        private GamePauseUI _gamePauseUI = new();
+        private GameStateInfoUI _stateInfoUI = new();
+        private SoliderInfoUI _soliderInfoUI = new();
 
         public void Init()
         {
@@ -91,6 +93,21 @@ namespace Pattern.FacadeAndSingletonPattern
         public Vector3 GetEnemyTargetPosition()
         {
             return Vector3.zero;
+        }
+
+        public void ShowCampInfo(Camp camp)
+        {
+            _campInfoUI.ShowCampInfo(camp);
+        }
+
+        public void AddSolider(Solider solider)
+        {
+            _characterSystem.AddSolider(solider);
+        }
+
+        public void AddEnemy(Enemy enemy)
+        {
+            _characterSystem.AddEnemy(enemy);
         }
     }
 }

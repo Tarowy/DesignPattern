@@ -20,12 +20,20 @@ namespace GameSystems.CharacterSystem
 
         public void Update()
         {
+            if (_soliders.Count == 0)
+            {
+                return;
+            }
             foreach (var solider in _soliders)
             {
                 solider.Update();
                 solider.UpdateFsmAI(_enemies);
             }
 
+            if (_enemies.Count == 0)
+            {
+                return;
+            }
             foreach (var enemy in _enemies)
             {
                 enemy.Update();

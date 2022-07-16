@@ -27,6 +27,8 @@ namespace GameSystems.UserInterfaceSystem
             _attack = UiTool.Find<Text>(rootUI, "Attack");
             _speed = UiTool.Find<Text>(rootUI, "Speed");
             _range = UiTool.Find<Text>(rootUI, "Range");
+            
+            Hide();
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Factory.CharacterFactory
 
             var soliderBuilder = new SoliderBuilder
                 (character,typeof(T),weaponType,spawnPosition,lv);
+            
             return CharacterDirector.Construct(soliderBuilder);
         }
     }

@@ -22,6 +22,7 @@ namespace SceneController
 
         public virtual void StateUpdate()
         {
+            
         }
 
         public virtual void StateEnd()

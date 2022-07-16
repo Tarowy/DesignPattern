@@ -30,5 +30,7 @@ namespace Factory.CharacterFactory.IBuilder
         {
             return character;
         }
+
+        public abstract void AddToCharacterSystem();
     }
 }

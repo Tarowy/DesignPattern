@@ -2,7 +2,10 @@ using System;
 using GameSystems.CharacterSystem;
 using GameSystems.CharacterSystem.Attribute;
 using GameSystems.CharacterSystem.AttrStrategy;
+using GameSystems.CharacterSystem.Enemy;
 using GameSystems.CharacterSystem.Solider;
+using Pattern.FacadeAndSingletonPattern;
+using Tools;
 using UnityEngine;
 using Weapon;
 
@@ -26,7 +29,9 @@ namespace Factory.CharacterFactory.IBuilder
 
         public override void AddGameObject()
         {
-            var loadSolider = FactoryManager.AssetFactory.LoadSolider(character.CharacterAttr.PrefabName);
+            var loadSolider =
+                InstantiateTool.InstantiateObj(
+                    FactoryManager.AssetFactory.LoadSolider(character.CharacterAttr.PrefabName));
             loadSolider.transform.position = spawnPosition;
             character.CharacterObject = loadSolider;
         }
@@ -34,6 +39,11 @@ namespace Factory.CharacterFactory.IBuilder
         public override void AddWeapon()
         {
             character.Weapon = FactoryManager.WeaponFactory.CreateWeapon(weaponType);
+        }
+
+        public override void AddToCharacterSystem()
+        {
+            GameFacade.Instance.AddEnemy(character as Enemy);
         }
     }
 }

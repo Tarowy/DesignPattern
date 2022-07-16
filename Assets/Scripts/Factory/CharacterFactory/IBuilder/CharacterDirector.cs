@@ -17,6 +17,7 @@ namespace Factory.CharacterFactory.IBuilder
             builder.AddCharacterAttr();
             builder.AddGameObject();
             builder.AddWeapon();
+            builder.AddToCharacterSystem();
             
             return builder.GetResult();
         }

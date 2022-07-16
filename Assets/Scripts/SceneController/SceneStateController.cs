@@ -11,6 +11,7 @@ namespace SceneController
 
         public void SetState(SceneState state, bool loadScene = true)
         {
+            // Debug.Log("切换场景");
             if (state is null)
             {
                 return;
@@ -48,8 +49,9 @@ namespace SceneController
 
             if (!_loadDone && _asyncOperation.isDone)
             {
-                _state.StateStart();
+                Debug.Log($"战斗场景Start {_loadDone}");
                 _loadDone = true;
+                _state.StateStart();
                 return;
             }
 

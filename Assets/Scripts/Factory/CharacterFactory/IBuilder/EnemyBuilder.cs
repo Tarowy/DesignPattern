@@ -3,6 +3,7 @@ using GameSystems.CharacterSystem;
 using GameSystems.CharacterSystem.Attribute;
 using GameSystems.CharacterSystem.AttrStrategy;
 using GameSystems.CharacterSystem.Enemy;
+using Pattern.FacadeAndSingletonPattern;
 using UnityEngine;
 using Weapon;
 
@@ -33,6 +34,11 @@ namespace Factory.CharacterFactory.IBuilder
         public override void AddWeapon()
         {
             character.Weapon = FactoryManager.WeaponFactory.CreateWeapon(weaponType);
+        }
+
+        public override void AddToCharacterSystem()
+        {
+            GameFacade.Instance.AddEnemy(character as Enemy);
         }
     }
 }

@@ -3,7 +3,14 @@ using GameSystems.CharacterSystem.Solider.AI;
 
 namespace GameSystems.CharacterSystem.Solider
 {
-    public abstract class Solider: Character
+    public enum SoliderType
+    {
+        Rookie,
+        Sergeant,
+        Captain
+    }
+
+    public abstract class Solider : Character
     {
         protected SoliderFsmSystem fsmSystem;
 
@@ -21,7 +28,7 @@ namespace GameSystems.CharacterSystem.Solider
             fsmSystem.CurrentState.Reason(characters);
             fsmSystem.CurrentState.Act(characters);
         }
-        
+
         /// <summary>
         /// 构建状态机
         /// </summary>
@@ -43,15 +50,15 @@ namespace GameSystems.CharacterSystem.Solider
              *  2.当靠近敌人时，就转换为Attack状态
              */
             soliderChaseState.AddTransition(SoliderTransition.NoEnemy, SoliderStateID.Idle);
-            soliderChaseState.AddTransition(SoliderTransition.ToAttack,SoliderStateID.Attack);
+            soliderChaseState.AddTransition(SoliderTransition.ToAttack, SoliderStateID.Attack);
 
-            var soliderAttackState = new SoliderAttackState(fsmSystem,this);
+            var soliderAttackState = new SoliderAttackState(fsmSystem, this);
             /*
              * 攻击状态可以切换成追赶状态或静止状态
              *  1.当没有敌人时就转换为Idle状态
              *  2.当敌人离得远时，就转换为Chase状态
              */
-            soliderAttackState.AddTransition(SoliderTransition.NoEnemy,SoliderStateID.Idle);
+            soliderAttackState.AddTransition(SoliderTransition.NoEnemy, SoliderStateID.Idle);
             soliderAttackState.AddTransition(SoliderTransition.SeeEnemy, SoliderStateID.Chase);
 
             fsmSystem.AddState(soliderIdleState, soliderChaseState, soliderAttackState);

@@ -44,6 +44,7 @@ namespace GameSystems.CharacterSystem
             {
                 weapon = value;
                 weapon.Owner = this;
+                //需要将加载的资源实例化才能设置父子关系
                 UnityTools.Attach(UnityTools.FindChild(characterObject, "weapon-point"), weapon.WeaponPrefab);
             }
         }

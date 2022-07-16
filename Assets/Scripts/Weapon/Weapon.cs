@@ -7,10 +7,12 @@ namespace Weapon
 {
     public enum WeaponType
     {
-        Rocket,
-        Rifle,
-        Gun
+        Gun = 0,
+        Rifle = 1,
+        Rocket = 2,
+        Max = 3
     }
+
     /// <summary>
     /// 桥接（Bridge）是用于把抽象化与实现化解耦，使得二者可以独立变化。
     /// 这种类型的设计模式属于结构型模式，它通过提供抽象化和实现化之间的桥接结构，来实现二者的解耦。
@@ -37,7 +39,7 @@ namespace Weapon
             this.weaponBaseAttr = weaponBaseAttr;
             this.weaponPrefab = weaponPrefab;
 
-            var effect= weaponPrefab.transform.Find("Effect");
+            var effect = weaponPrefab.transform.Find("Effect");
             particleSystem = effect.GetComponent<ParticleSystem>();
             lineRender = effect.GetComponent<LineRenderer>();
             light = effect.GetComponent<Light>();
@@ -54,7 +56,7 @@ namespace Weapon
         }
 
         public GameObject WeaponPrefab => weaponPrefab;
-        
+
         public void Update()
         {
             if (effectDisplayTime > 0)

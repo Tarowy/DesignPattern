@@ -17,5 +17,8 @@ namespace GameSystems
         public virtual void Release()
         {
         }
+
+        public virtual void Show() => rootUI.SetActive(true);
+        public virtual void Hide() => rootUI.SetActive(false);
     }
 }

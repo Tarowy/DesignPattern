@@ -32,15 +32,15 @@ namespace Factory.AttrFactory
             {
                 {
                     typeof(Rookie), new CharacterBaseAttr("下士", 80,
-                        2.5f, "RookieIcon", "Soilder1", 0)
+                        2.5f, "RookieIcon", "Soldier1", 0)
                 },
                 {
                     typeof(Sergeant), new CharacterBaseAttr("中士", 90,
-                        3f, "SergeantIcon", "Soilder2", 0)
+                        3f, "SergeantIcon", "Soldier2", 0)
                 },
                 {
                     typeof(Captain), new CharacterBaseAttr("上尉", 100,
-                        3f, "CaptainIcon", "Soilder3", 0)
+                        3f, "CaptainIcon", "Soldier3", 0)
                 },
                 {
                     typeof(Elf), new CharacterBaseAttr("精灵", 100,

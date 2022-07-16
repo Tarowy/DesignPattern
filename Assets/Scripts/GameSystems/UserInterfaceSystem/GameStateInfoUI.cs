@@ -32,9 +32,11 @@ namespace GameSystems.UserInterfaceSystem
             _pauseBtn = UiTool.Find<Button>(rootUI, "PauseBtn");
             _energy = UiTool.Find<Slider>(rootUI, "Energy");
             _energyText = UiTool.Find<Text>(rootUI, "EnergyText");
-            _gameOver = UiTool.Find<GameObject>(rootUI, "GameOver");
+            _gameOver = UnityTools.FindChild(rootUI, "GameOver");
             _backToMenu = UiTool.Find<Button>(rootUI, "BackToMenu");
             _message = UiTool.Find<Text>(rootUI, "Message");
+
+            _gameOver.SetActive(false);
         }
     }
 }

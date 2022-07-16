@@ -6,6 +6,7 @@ namespace Tools
     {
         public static GameObject FindChild(GameObject parent, string name)
         {
+            // Debug.Log("Parent:" + parent);
             var transforms = parent.GetComponentsInChildren<Transform>();
 
             foreach (var transform in transforms)

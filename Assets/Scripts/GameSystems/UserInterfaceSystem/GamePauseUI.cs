@@ -18,6 +18,8 @@ namespace GameSystems.UserInterfaceSystem
             _stageLevel = UiTool.Find<Text>(rootUI, "StageLevel");
             _continueBtn = UiTool.Find<Button>(rootUI, "ContinueBtn");
             _menuBtn = UiTool.Find<Button>(rootUI, "MenuBtn");
+            
+            Hide();
         }
     }
 }
