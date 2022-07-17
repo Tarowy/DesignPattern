@@ -1,5 +1,6 @@
 using Factory;
 using GameSystems.CampSystem;
+using Pattern.FacadeAndSingletonPattern;
 using Tools;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,7 @@ namespace GameSystems.UserInterfaceSystem
         private Button _upgradeCamp;
         private Button _upgradeWeapon;
         private Button _trainSolider;
+        private Text _trainSoliderText;
         private Button _cancelTrain;
         private Text _aliveCount;
         private Text _trainingCount;
@@ -40,6 +42,7 @@ namespace GameSystems.UserInterfaceSystem
             _aliveCount = UiTool.Find<Text>(rootUI, "AliveCount");
             _trainingCount = UiTool.Find<Text>(rootUI, "TrainingCount");
             _trainingTime = UiTool.Find<Text>(rootUI, "TrainingTime");
+            _trainSoliderText = _trainSolider.transform.GetChild(0).GetComponent<Text>();
 
             _trainSolider.onClick.AddListener(OnTrainClick);
             _cancelTrain.onClick.AddListener(OnCancelTrain);
@@ -65,6 +68,7 @@ namespace GameSystems.UserInterfaceSystem
             _campImg.sprite = FactoryManager.AssetFactory.LoadSprite(camp.CampSprite);
             _campLevel.text = camp.Level.ToString();
             _campName.text = camp.CampName;
+            _trainSoliderText.text = $"训练士兵\n{camp.TrainCost}点能量";
             _weaponLevel.text = camp.WeaponType switch
             {
                 WeaponType.Gun => "短枪",
@@ -90,11 +94,18 @@ namespace GameSystems.UserInterfaceSystem
 
         private void OnTrainClick()
         {
-            _camp.Train();
+            if (GameFacade.Instance.CostEnergy(_camp.TrainCost))
+            {
+                _camp.Train();
+                return;
+            }
+
+            GameFacade.Instance.ShowMessage($"训练需要{_camp.TrainCost}点能量，目前无法训练新的士兵");
         }
 
         private void OnCancelTrain()
         {
+            GameFacade.Instance.RecycleEnergy(_camp.TrainCost);
             _camp.CancelTrain();
         }
 
@@ -103,11 +114,18 @@ namespace GameSystems.UserInterfaceSystem
             var energy = _camp.CampUpgradeCost;
             if (energy < 0)
             {
+                GameFacade.Instance.ShowMessage("兵营已经是最高等级，无法升级");
                 return;
             }
 
-            _camp.UpgradeCamp();
-            ShowCampInfo(_camp);
+            if (GameFacade.Instance.CostEnergy(_camp.CampUpgradeCost))
+            {
+                _camp.UpgradeCamp();
+                ShowCampInfo(_camp);
+                return;
+            }
+
+            GameFacade.Instance.ShowMessage($"升级兵营需要{_camp.CampUpgradeCost}能量，请稍后再进行升级");
         }
 
         private void OnWeaponUpgradeClick()
@@ -115,11 +133,18 @@ namespace GameSystems.UserInterfaceSystem
             var energy = _camp.WeaponUpgradeCost;
             if (energy < 0)
             {
+                GameFacade.Instance.ShowMessage("武器已经是最高等级，无法升级");
                 return;
             }
 
-            _camp.UpgradeWeapon();
-            ShowCampInfo(_camp);
+            if (GameFacade.Instance.CostEnergy(_camp.WeaponUpgradeCost))
+            {
+                _camp.UpgradeWeapon();
+                ShowCampInfo(_camp);
+                return;
+            }
+
+            GameFacade.Instance.ShowMessage($"升级武器需要{_camp.WeaponUpgradeCost}点能量，请稍后再进行升级");
         }
     }
 }

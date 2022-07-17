@@ -21,6 +21,7 @@ namespace GameSystems.CampSystem
             _level = level;
 
             energyCostStrategy = new SoliderCostStrategy();
+            UpdateEnergyCost();
         }
 
         public override int Level => _level;
@@ -62,7 +63,7 @@ namespace GameSystems.CampSystem
             commands.Enqueue(new TrainSoliderCommand(soliderType, _weaponType, musterPosition, _level));
         }
 
-        public override void UpdateEnergyCost()
+        public sealed override void UpdateEnergyCost()
         {
             campUpgradeCost = energyCostStrategy.GetCampUpgradeCost(soliderType, _level);
             weaponUpgradeCost = energyCostStrategy.GetWeaponUpgradeCost(_weaponType);

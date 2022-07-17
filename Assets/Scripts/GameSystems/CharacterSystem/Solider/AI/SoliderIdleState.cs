@@ -20,7 +20,7 @@ namespace GameSystems.CharacterSystem.Solider.AI
 
         public override void Act(List<Character> characters)
         {
-            character.PlayAnimation("Stand");
+            character.PlayAnimation("stand");
         }
     }
 }

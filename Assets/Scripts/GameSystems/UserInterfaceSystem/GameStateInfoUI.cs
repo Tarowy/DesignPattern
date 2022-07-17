@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace GameSystems.UserInterfaceSystem
 {
-    public class GameStateInfoUI: UserInterface
+    public class GameStateInfoUI : UserInterface
     {
         private List<GameObject> _hearts;
         private Text _soliderCount;
@@ -17,6 +17,9 @@ namespace GameSystems.UserInterfaceSystem
         private GameObject _gameOver;
         private Button _backToMenu;
         private Text _message;
+
+        private float _messageTime = 2;
+        private float _currentMessageTime = 0;
 
         public override void Init()
         {
@@ -36,7 +39,33 @@ namespace GameSystems.UserInterfaceSystem
             _backToMenu = UiTool.Find<Button>(rootUI, "BackToMenu");
             _message = UiTool.Find<Text>(rootUI, "Message");
 
+            _message.text = "";
             _gameOver.SetActive(false);
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            if (_currentMessageTime > 0)
+            {
+                _currentMessageTime -= Time.deltaTime;
+                if (_currentMessageTime <= 0)
+                {
+                    _message.text = "";
+                }
+            }
+        }
+
+        public void ShowMessage(string msg)
+        {
+            _message.text = msg;
+            _currentMessageTime = _messageTime;
+        }
+
+        public void UpdateEnergySlider(float currentEnergy,float maxEnergy)
+        {
+            _energy.value = currentEnergy / maxEnergy;
+            _energyText.text = $"({currentEnergy}/{maxEnergy})";
         }
     }
 }

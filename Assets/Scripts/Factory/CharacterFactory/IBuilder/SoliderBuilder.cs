@@ -43,7 +43,7 @@ namespace Factory.CharacterFactory.IBuilder
 
         public override void AddToCharacterSystem()
         {
-            GameFacade.Instance.AddEnemy(character as Enemy);
+            GameFacade.Instance.AddSolider(character as Solider);
         }
     }
 }

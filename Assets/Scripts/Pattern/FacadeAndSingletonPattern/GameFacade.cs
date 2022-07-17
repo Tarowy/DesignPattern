@@ -109,5 +109,25 @@ namespace Pattern.FacadeAndSingletonPattern
         {
             _characterSystem.AddEnemy(enemy);
         }
+
+        public bool CostEnergy(float value)
+        {
+            return _energySystem.CostEnergy(value);
+        }
+
+        public void ShowMessage(string msg)
+        {
+            _stateInfoUI.ShowMessage(msg);
+        }
+
+        public void RecycleEnergy(float value)
+        {
+            _energySystem.RecycleEnergy(value);
+        }
+        
+        public void UpdateEnergySlider(float currentEnergy,float maxEnergy)
+        {
+            _stateInfoUI.UpdateEnergySlider(currentEnergy, maxEnergy);
+        }
     }
 }
