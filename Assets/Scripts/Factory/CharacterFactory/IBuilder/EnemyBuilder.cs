@@ -4,6 +4,7 @@ using GameSystems.CharacterSystem.Attribute;
 using GameSystems.CharacterSystem.AttrStrategy;
 using GameSystems.CharacterSystem.Enemy;
 using Pattern.FacadeAndSingletonPattern;
+using Tools;
 using UnityEngine;
 using Weapon;
 
@@ -26,7 +27,9 @@ namespace Factory.CharacterFactory.IBuilder
 
         public override void AddGameObject()
         {
-            var loadEnemy = FactoryManager.AssetFactory.LoadEnemy(character.CharacterAttr.PrefabName);
+            var loadEnemy =
+                InstantiateTool.InstantiateObj(
+                    FactoryManager.AssetFactory.LoadEnemy(character.CharacterAttr.PrefabName));
             loadEnemy.transform.position = spawnPosition;
             character.CharacterObject = loadEnemy;
         }

@@ -21,6 +21,7 @@ namespace GameSystems.CharacterSystem.Solider.AI
             var distance = Vector3.Distance(characters[0].Position, character.Position);
             if (distance <= character.WeaponRange)
             {
+                Debug.Log("chase 转换为 attack");
                 fsmSystem.PerformTransition(SoliderTransition.ToAttack);
             }
         }

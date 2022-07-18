@@ -1,25 +1,36 @@
 using System.Collections.Generic;
 using GameSystems.CharacterSystem.Enemy.AI;
+using Pattern.FacadeAndSingletonPattern;
 using UnityEngine;
 
 namespace GameSystems.CharacterSystem.Enemy
 {
+    public enum EnemyType
+    {
+        Elf,
+        Ogre,
+        Troll
+    }
     public abstract class Enemy: Character
     {
         protected EnemyFsmSystem enemyFsmSystem;
 
         public Enemy()
         {
-            MakeFsm();
+            // 
         }
         
         public override void UpdateFsmAI(List<Character> characters)
         {
+            if (isDead)
+            {
+                return;
+            }
             enemyFsmSystem.CurrentState.Reason(characters);
             enemyFsmSystem.CurrentState.Act(characters);
         }
 
-        public void MakeFsm()
+        protected override void MakeFsm()
         {
             enemyFsmSystem = new EnemyFsmSystem();
 
@@ -42,7 +53,13 @@ namespace GameSystems.CharacterSystem.Enemy
                 Dead();
             }
         }
-
+        
+        protected override void RemoveSelf()
+        {
+            GameFacade.Instance.RemoveEnemy(this);
+            base.RemoveSelf();
+        }
+        
         public abstract void PlayEffect();
     }
 }

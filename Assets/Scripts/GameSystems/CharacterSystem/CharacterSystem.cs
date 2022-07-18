@@ -20,29 +20,40 @@ namespace GameSystems.CharacterSystem
 
         public void Update()
         {
+            UpdateSolider();
+            UpdateEnemy();
+        }
+
+        private void UpdateSolider()
+        {
             if (_soliders.Count == 0)
             {
                 return;
             }
-            foreach (var solider in _soliders)
+            //不能使用foreach，foreach遍历时如果有士兵或敌人死亡会造成迭代变量被改变而抛出异常
+            for (var i = 0; i < _soliders.Count; i++)
             {
-                solider.Update();
-                solider.UpdateFsmAI(_enemies);
+                _soliders[i].Update();
+                _soliders[i].UpdateFsmAI(_enemies);
             }
+        }
 
+        private void UpdateEnemy()
+        {
             if (_enemies.Count == 0)
             {
                 return;
             }
-            foreach (var enemy in _enemies)
+            for (var i = 0; i < _enemies.Count; i++)
             {
-                enemy.Update();
-                enemy.UpdateFsmAI(_soliders);
+                _enemies[i].Update();
+                _enemies[i].UpdateFsmAI(_soliders);
             }
         }
 
         public void Release()
         {
+            
         }
     }
 }

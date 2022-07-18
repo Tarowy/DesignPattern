@@ -92,7 +92,7 @@ namespace Pattern.FacadeAndSingletonPattern
 
         public Vector3 GetEnemyTargetPosition()
         {
-            return Vector3.zero;
+            return _stageSystem.TargetPosition;
         }
 
         public void ShowCampInfo(Camp camp)
@@ -105,9 +105,19 @@ namespace Pattern.FacadeAndSingletonPattern
             _characterSystem.AddSolider(solider);
         }
 
+        public void RemoveSolider(Solider solider)
+        {
+            _characterSystem.RemoveSolider(solider);
+        }
+
         public void AddEnemy(Enemy enemy)
         {
             _characterSystem.AddEnemy(enemy);
+        }
+
+        public void RemoveEnemy(Enemy enemy)
+        {
+            _characterSystem.RemoveEnemy(enemy);
         }
 
         public bool CostEnergy(float value)

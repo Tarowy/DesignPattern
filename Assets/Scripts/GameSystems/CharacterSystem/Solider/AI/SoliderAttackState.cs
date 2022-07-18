@@ -18,6 +18,7 @@ namespace GameSystems.CharacterSystem.Solider.AI
         {
             if (characters is null || characters.Count == 0)
             {
+                character.NavMeshAgent.isStopped = false;
                 fsmSystem.PerformTransition(SoliderTransition.NoEnemy);
                 return;
             }
@@ -25,6 +26,7 @@ namespace GameSystems.CharacterSystem.Solider.AI
             var distance = Vector3.Distance(character.Position, characters[0].Position);
             if (distance > character.WeaponRange)
             {
+                character.NavMeshAgent.isStopped = false;
                 fsmSystem.PerformTransition(SoliderTransition.SeeEnemy);
             }
         }
@@ -35,10 +37,11 @@ namespace GameSystems.CharacterSystem.Solider.AI
             {
                 return;
             }
-
+            
             _currentAttackCounter -= Time.deltaTime;
             if (_currentAttackCounter <= 0)
             {
+                character.NavMeshAgent.isStopped = true;
                 character.Attack(characters[0]);
                 _currentAttackCounter = _attackCoolDown;
             }

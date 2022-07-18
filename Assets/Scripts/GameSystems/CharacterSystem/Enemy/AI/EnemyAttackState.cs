@@ -18,6 +18,7 @@ namespace GameSystems.CharacterSystem.Enemy.AI
         {
             if (characters is null || characters.Count == 0)
             {
+                character.NavMeshAgent.isStopped = false;
                 fsmSystem.PerformTransition(EnemyTransition.LostSolider);
                 return;
             }
@@ -25,6 +26,7 @@ namespace GameSystems.CharacterSystem.Enemy.AI
             var distance = Vector3.Distance(characters[0].Position,character.Position);
             if (distance > character.WeaponRange)
             {
+                character.NavMeshAgent.isStopped = false;
                 fsmSystem.PerformTransition(EnemyTransition.LostSolider);
             }
         }
@@ -39,6 +41,8 @@ namespace GameSystems.CharacterSystem.Enemy.AI
             _currentAttackCounter -= Time.deltaTime;
             if (_currentAttackCounter <= 0)
             {
+                //攻击时需要停止移动，防止出现滑动挤压的情况
+                character.NavMeshAgent.isStopped = true;
                 character.Attack(characters[0]);
                 _currentAttackCounter = _attackCoolDown;
             }

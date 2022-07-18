@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
 using Factory;
 using GameSystems.CharacterSystem.Attribute;
 using MonoBe;
+using Pattern.FacadeAndSingletonPattern;
 using Tools;
 using UnityEngine;
 using UnityEngine.AI;
+using Object = UnityEngine.Object;
 
 namespace GameSystems.CharacterSystem
 {
@@ -17,6 +20,10 @@ namespace GameSystems.CharacterSystem
         protected Animation animation;
         protected Weapon.Weapon weapon;
 
+        public bool isDead = false;
+        public bool canDestroy = false;
+        public float destroyTime = 2;
+
         public Vector3 Position => characterObject ? characterObject.transform.position : Vector3.zero;
 
         public float WeaponRange => weapon.WeaponRange;
@@ -27,6 +34,8 @@ namespace GameSystems.CharacterSystem
             get => characterAttr;
         }
 
+        public NavMeshAgent NavMeshAgent => navMeshAgent;
+
         public GameObject CharacterObject
         {
             set
@@ -35,6 +44,8 @@ namespace GameSystems.CharacterSystem
                 audioSource = characterObject.GetComponent<AudioSource>();
                 navMeshAgent = characterObject.GetComponent<NavMeshAgent>();
                 animation = characterObject.GetComponentInChildren<Animation>();
+                //如果在构造方法里就构造状态机，状态机刚加入时需要调用DoBeforeEnter，其中的使用组件还未赋值会导致报错
+                MakeFsm();
             }
         }
 
@@ -50,6 +61,7 @@ namespace GameSystems.CharacterSystem
         }
 
         public abstract void UpdateFsmAI(List<Character> characters);
+        protected abstract void MakeFsm();
 
         public void PlayAnimation(string animName)
         {
@@ -59,7 +71,7 @@ namespace GameSystems.CharacterSystem
         public void SetPosition(Vector3 targetPosition)
         {
             navMeshAgent.destination = targetPosition;
-            PlayAnimation("Move");
+            PlayAnimation("move");
         }
 
 
@@ -67,7 +79,7 @@ namespace GameSystems.CharacterSystem
         {
             characterObject.transform.LookAt(target.Position);
             weapon.Fire(target.Position);
-            PlayAnimation("Attack");
+            PlayAnimation("attack");
             target.GetDamage(weapon.WeaponBaseAttr.Damage + characterAttr.CriticalValue);
         }
 
@@ -82,11 +94,31 @@ namespace GameSystems.CharacterSystem
 
         public void Dead()
         {
+            isDead = true;
+            navMeshAgent.isStopped = true;
         }
 
         public void Update()
         {
+            if (isDead)
+            {
+                destroyTime -= Time.deltaTime;
+                if (destroyTime <= 0)
+                {
+                    canDestroy = true;
+                    RemoveSelf();
+                }
+                return;
+            }
             weapon.Update();
+        }
+
+        /// <summary>
+        /// 角色死亡后销毁GameObject对象
+        /// </summary>
+        protected virtual void RemoveSelf()
+        {
+            Object.Destroy(characterObject);
         }
 
         public virtual void Effect(string effectName)

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using GameSystems.CharacterSystem.Solider.AI;
+using Pattern.FacadeAndSingletonPattern;
+using UnityEngine;
 
 namespace GameSystems.CharacterSystem.Solider
 {
@@ -25,6 +27,10 @@ namespace GameSystems.CharacterSystem.Solider
         /// <param name="characters"></param>
         public override void UpdateFsmAI(List<Character> characters)
         {
+            if (isDead)
+            {
+                return;
+            }
             fsmSystem.CurrentState.Reason(characters);
             fsmSystem.CurrentState.Act(characters);
         }
@@ -32,7 +38,7 @@ namespace GameSystems.CharacterSystem.Solider
         /// <summary>
         /// 构建状态机
         /// </summary>
-        public void MakeFsm()
+        protected override void MakeFsm()
         {
             fsmSystem = new SoliderFsmSystem();
 
@@ -66,6 +72,10 @@ namespace GameSystems.CharacterSystem.Solider
 
         public override void GetDamage(int damage)
         {
+            if (isDead)
+            {
+                return;
+            }
             base.GetDamage(damage);
             PlayEffect();
 
@@ -75,6 +85,13 @@ namespace GameSystems.CharacterSystem.Solider
                 PlaySound();
                 Dead();
             }
+        }
+
+        protected override void RemoveSelf()
+        {
+            Debug.Log("士兵死亡");
+            GameFacade.Instance.RemoveSolider(this);
+            base.RemoveSelf();
         }
 
         public abstract void PlayEffect();

@@ -7,7 +7,7 @@ namespace Factory.AssetFactory
     {
         private const string SoliderPath = "Characters/Soldier/";
         private const string EnemyPath = "Characters/Enemy/";
-        private const string EffectPath = "Effects/";
+        private const string EffectPath = "Sprites/Effects/";
         private const string WeaponPath = "Weapons/";
         private const string AudioPath = "Audios/";
         private const string SpritePath = "Sprites/";
