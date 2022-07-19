@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GameSystems.CharacterSystem.Enemy.AI;
+using GameSystems.CharacterSystem.Visitor;
 using GameSystems.GameEventSystem;
 using Pattern.FacadeAndSingletonPattern;
 using UnityEngine;
@@ -70,6 +71,11 @@ namespace GameSystems.CharacterSystem.Enemy
         {
             GameFacade.Instance.RemoveEnemy(this);
             base.RemoveSelf();
+        }
+
+        public override void RunVisitor(CharacterVisitor characterVisitor)
+        {
+            characterVisitor.VisitEnemy(this);
         }
         
         public abstract void PlayEffect();

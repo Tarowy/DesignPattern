@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using GameSystems.CharacterSystem.Visitor;
+using Pattern.FacadeAndSingletonPattern;
 using Tools;
 using UnityEngine;
 using UnityEngine.UI;
@@ -66,6 +68,12 @@ namespace GameSystems.UserInterfaceSystem
         {
             _energy.value = currentEnergy / maxEnergy;
             _energyText.text = $"({currentEnergy}/{maxEnergy})";
+        }
+
+        public void UpdateLiveInfo(int soliderLiveCount,int enemyLiveCount)
+        {
+            _soliderCount.text = soliderLiveCount.ToString();
+            _enemyCount.text = enemyLiveCount.ToString();
         }
     }
 }

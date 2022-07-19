@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Factory;
 using GameSystems.CharacterSystem.Attribute;
+using GameSystems.CharacterSystem.Visitor;
 using MonoBe;
 using Pattern.FacadeAndSingletonPattern;
 using Tools;
@@ -62,6 +63,15 @@ namespace GameSystems.CharacterSystem
 
         public abstract void UpdateFsmAI(List<Character> characters);
         protected abstract void MakeFsm();
+
+        /// <summary>
+        /// 运行访问者模式
+        /// </summary>
+        /// <param name="characterVisitor"></param>
+        public virtual void RunVisitor(CharacterVisitor characterVisitor)
+        {
+            
+        }
 
         public void PlayAnimation(string animName)
         {

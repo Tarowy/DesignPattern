@@ -3,6 +3,7 @@ using GameSystems.CampSystem;
 using GameSystems.CharacterSystem;
 using GameSystems.CharacterSystem.Enemy;
 using GameSystems.CharacterSystem.Solider;
+using GameSystems.CharacterSystem.Visitor;
 using GameSystems.EnergySystem;
 using GameSystems.GameEventSystem;
 using GameSystems.GameEventSystem.Observer;
@@ -177,6 +178,20 @@ namespace Pattern.FacadeAndSingletonPattern
             var achieveMemento = new AchieveMemento();
             achieveMemento.LoadData();
             _achievementSystem.SetMemento(achieveMemento);
+        }
+
+        /// <summary>
+        /// 运行访问者模式统计角色信息
+        /// </summary>
+        /// <param name="characterVisitor"></param>
+        public void RunCharacterVisitor(CharacterVisitor characterVisitor)
+        {
+            _characterSystem.RunVisitor(characterVisitor);
+        }
+
+        public void UpdateLiveInfo(int soliderLiveCount,int enemyLiveCount)
+        {
+            _stateInfoUI.UpdateLiveInfo(soliderLiveCount,enemyLiveCount);
         }
     }
 }

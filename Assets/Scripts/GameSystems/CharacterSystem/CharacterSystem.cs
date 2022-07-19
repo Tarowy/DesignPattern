@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using GameSystems.CharacterSystem.Visitor;
+using Pattern.FacadeAndSingletonPattern;
 
 namespace GameSystems.CharacterSystem
 {
@@ -7,11 +9,40 @@ namespace GameSystems.CharacterSystem
         private List<Character> _soliders = new();
         private List<Character> _enemies = new();
 
-        public void AddEnemy(Enemy.Enemy enemy) => _enemies.Add(enemy);
-        public void RemoveEnemy(Enemy.Enemy enemy) => _enemies.Remove(enemy);
+        private AliveCountVisitor _aliveCountVisitor = new();
 
-        public void AddSolider(Solider.Solider solider) => _soliders.Add(solider);
-        public void RemoveSolider(Solider.Solider solider) => _soliders.Remove(solider);
+        public void AddEnemy(Enemy.Enemy enemy)
+        {
+            _enemies.Add(enemy);
+            _aliveCountVisitor.Reset();
+            RunVisitor(_aliveCountVisitor);
+            GameFacade.Instance.UpdateLiveInfo(_aliveCountVisitor.SoliderLiveCount,_aliveCountVisitor.EnemyLiveCount);
+        }
+
+        public void RemoveEnemy(Enemy.Enemy enemy)
+        {
+            _enemies.Remove(enemy);
+            _aliveCountVisitor.Reset();
+            RunVisitor(_aliveCountVisitor);
+            GameFacade.Instance.UpdateLiveInfo(_aliveCountVisitor.SoliderLiveCount,_aliveCountVisitor.EnemyLiveCount);
+        }
+
+        public void AddSolider(Solider.Solider solider)
+        {
+            _soliders.Add(solider);
+            _aliveCountVisitor.Reset();
+            RunVisitor(_aliveCountVisitor);
+            GameFacade.Instance.UpdateLiveInfo(_aliveCountVisitor.SoliderLiveCount,_aliveCountVisitor.EnemyLiveCount);
+        }
+
+        public void RemoveSolider(Solider.Solider solider)
+        {
+            _soliders.Remove(solider);
+            _aliveCountVisitor.Reset();
+            RunVisitor(_aliveCountVisitor);
+            GameFacade.Instance.UpdateLiveInfo(_aliveCountVisitor.SoliderLiveCount,_aliveCountVisitor.EnemyLiveCount);
+        }
+        
 
         public void Init()
         {
@@ -54,6 +85,19 @@ namespace GameSystems.CharacterSystem
         public void Release()
         {
             
+        }
+
+        public void RunVisitor(CharacterVisitor characterVisitor)
+        {
+            foreach (var solider in _soliders)
+            {
+                solider.RunVisitor(characterVisitor);
+            }
+
+            foreach (var enemy in _enemies)
+            {
+                enemy.RunVisitor(characterVisitor);
+            }
         }
     }
 }

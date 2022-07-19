@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GameSystems.CharacterSystem.Solider.AI;
+using GameSystems.CharacterSystem.Visitor;
 using GameSystems.GameEventSystem;
 using Pattern.FacadeAndSingletonPattern;
 using UnityEngine;
@@ -96,8 +97,14 @@ namespace GameSystems.CharacterSystem.Solider
 
         protected override void RemoveSelf()
         {
+            Debug.Log("士兵死亡");
             GameFacade.Instance.RemoveSolider(this);
             base.RemoveSelf();
+        }
+
+        public override void RunVisitor(CharacterVisitor characterVisitor)
+        {
+            characterVisitor.VisitSolider(this);
         }
 
         public abstract void PlayEffect();
