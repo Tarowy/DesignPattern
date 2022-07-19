@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GameSystems.CharacterSystem.Solider.AI;
+using GameSystems.GameEventSystem;
 using Pattern.FacadeAndSingletonPattern;
 using UnityEngine;
 
@@ -87,9 +88,14 @@ namespace GameSystems.CharacterSystem.Solider
             }
         }
 
+        public override void Dead()
+        {
+            base.Dead();
+            GameFacade.Instance.NotifySubject(GameEventType.SoliderDead);
+        }
+
         protected override void RemoveSelf()
         {
-            Debug.Log("士兵死亡");
             GameFacade.Instance.RemoveSolider(this);
             base.RemoveSelf();
         }

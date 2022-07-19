@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace GameSystems.StageSystem.Handler
 {
     /// <summary>
@@ -35,10 +37,15 @@ namespace GameSystems.StageSystem.Handler
 
         public void Handle(int levelHandle)
         {
+            
             if (level == levelHandle)
             {
+                Debug.Log("level: " + level);
                 UpdateStage();
-                CheckStageFinished();
+                if (levelHandle < 3)
+                {
+                    CheckStageFinished();
+                }
                 return;
             }
 

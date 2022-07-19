@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using GameSystems.CharacterSystem.Enemy;
+using GameSystems.GameEventSystem;
+using GameSystems.GameEventSystem.Observer.EnemyDeadObserver;
 using GameSystems.StageSystem.Handler;
+using Pattern.FacadeAndSingletonPattern;
 using UnityEngine;
 using Weapon;
 
@@ -11,6 +14,7 @@ namespace GameSystems.StageSystem
         private int _level = 1;
         private List<Vector3> _posList;
         private StageHandler _rootHandler;
+        private int _enemyDeadCount = 0;
 
         public Vector3 TargetPosition { set; get; }
 
@@ -18,6 +22,8 @@ namespace GameSystems.StageSystem
         {
             InitSpawnPosition();
             InitStageChain();
+            //注册敌人死亡的订阅，一旦有敌人死亡就会更新此类中的enemyDeadCount
+            GameFacade.Instance.RegisterObserver(GameEventType.EnemyDead, new EnemyDeadObStageSystem(this));
         }
 
         private void InitSpawnPosition()
@@ -69,12 +75,19 @@ namespace GameSystems.StageSystem
 
         public int GetCountOfEnemyDead()
         {
-            return 0;
+            return _enemyDeadCount;
+        }
+
+        public int EnemyDeadCount
+        {
+            set => _enemyDeadCount = value;
         }
 
         public void EnterNextStage()
         {
             _level++;
+            //进入下一关时，通知场景的Subject场景已经更新
+            GameFacade.Instance.NotifySubject(GameEventType.NewStage);
         }
     }
 }

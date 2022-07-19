@@ -5,6 +5,7 @@ using GameSystems.CharacterSystem.Enemy;
 using GameSystems.CharacterSystem.Solider;
 using GameSystems.EnergySystem;
 using GameSystems.GameEventSystem;
+using GameSystems.GameEventSystem.Observer;
 using GameSystems.StageSystem;
 using GameSystems.UserInterfaceSystem;
 using UnityEngine;
@@ -138,6 +139,21 @@ namespace Pattern.FacadeAndSingletonPattern
         public void UpdateEnergySlider(float currentEnergy,float maxEnergy)
         {
             _stateInfoUI.UpdateEnergySlider(currentEnergy, maxEnergy);
+        }
+        
+        public void RegisterObserver(GameEventType eventType, GameEventObserver observer)
+        {
+            _gameEventSystem.RegisterObserver(eventType, observer);
+        }
+
+        public void RemoveObserver(GameEventType eventType, GameEventObserver observer)
+        {
+            _gameEventSystem.RemoveObserver(eventType, observer);
+        }
+
+        public void NotifySubject(GameEventType eventType)
+        {
+            _gameEventSystem.NotifySubject(eventType);
         }
     }
 }

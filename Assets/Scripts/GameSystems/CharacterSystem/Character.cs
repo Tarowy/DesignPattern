@@ -92,7 +92,7 @@ namespace GameSystems.CharacterSystem
             //死亡的特效、音效(只有战士有)
         }
 
-        public void Dead()
+        public virtual void Dead()
         {
             isDead = true;
             navMeshAgent.isStopped = true;
