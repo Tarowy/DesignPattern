@@ -59,6 +59,8 @@ namespace Pattern.FacadeAndSingletonPattern
             _gamePauseUI.Init();
             _stateInfoUI.Init();
             _soliderInfoUI.Init();
+            
+            LoadMemento();
         }
 
         public void Update()
@@ -89,6 +91,8 @@ namespace Pattern.FacadeAndSingletonPattern
             _gamePauseUI.Release();
             _stateInfoUI.Release();
             _soliderInfoUI.Release();
+            
+            CreateMemento();
         }
 
         public Vector3 GetEnemyTargetPosition()
@@ -154,6 +158,25 @@ namespace Pattern.FacadeAndSingletonPattern
         public void NotifySubject(GameEventType eventType)
         {
             _gameEventSystem.NotifySubject(eventType);
+        }
+
+        /// <summary>
+        /// 储存成就数据
+        /// </summary>
+        public void CreateMemento()
+        {
+            var achieveMemento = _achievementSystem.CreateMemento();
+            achieveMemento.SaveData(); 
+        }
+
+        /// <summary>
+        /// 读取成就数据
+        /// </summary>
+        public void LoadMemento()
+        {
+            var achieveMemento = new AchieveMemento();
+            achieveMemento.LoadData();
+            _achievementSystem.SetMemento(achieveMemento);
         }
     }
 }

@@ -46,5 +46,30 @@ namespace GameSystems.AchievementSystem
         public void Release()
         {
         }
+
+        /// <summary>
+        /// 储存当前的存档数据
+        /// </summary>
+        /// <returns>含有当前成就数据的AchieveMemento对象</returns>
+        public AchieveMemento CreateMemento()
+        {
+            return new AchieveMemento
+            {
+                EnemyDeadCount = _enemyDeadCunt,
+                SoliderDeadCount = _soliderDeadCount,
+                MaxStageLevel = _maxStageLevel
+            };
+        }
+
+        /// <summary>
+        /// 将成就数据读取出来
+        /// </summary>
+        /// <param name="memento"></param>
+        public void SetMemento(AchieveMemento memento)
+        {
+            _enemyDeadCunt = memento.EnemyDeadCount;
+            _soliderDeadCount = memento.SoliderDeadCount;
+            _maxStageLevel = memento.MaxStageLevel;
+        }
     }
 }
