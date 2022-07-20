@@ -13,7 +13,7 @@ namespace Factory
         private static IWeaponFactory _weaponFactory;
         private static IAttrFactory _attrFactory;
 
-        public static IAssetFactory AssetFactory => _assetFactory ??= new ResourceAssetFactory();
+        public static IAssetFactory AssetFactory => _assetFactory ??= new AssetProxyFactory();
         public static ICharacterFactory EnemyFactory => _soliderFactory ??= new EnemyFactory();
         public static ICharacterFactory SoliderFactory => _enemyFactory ??= new SoliderFactory();
         public static IWeaponFactory WeaponFactory => _weaponFactory ??= new WeaponFactory.WeaponFactory();
