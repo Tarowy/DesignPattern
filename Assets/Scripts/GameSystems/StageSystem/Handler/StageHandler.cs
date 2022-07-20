@@ -42,6 +42,7 @@ namespace GameSystems.StageSystem.Handler
             {
                 Debug.Log("level: " + level);
                 UpdateStage();
+                //达到最大关卡等级后不再检测该关卡是否完成
                 if (levelHandle < 3)
                 {
                     CheckStageFinished();

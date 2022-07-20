@@ -30,6 +30,14 @@ namespace GameSystems.CharacterSystem.Attribute
 
         public string PrefabName => characterBaseAttr.PrefabName;
 
+        public IAttrStrategy AttrStrategy
+        {
+            set => attrStrategy = value;
+            get => attrStrategy;
+        }
+
+        public CharacterBaseAttr CharacterBaseAttr => characterBaseAttr;
+
 
         public void GetDamage(int damage)
         {

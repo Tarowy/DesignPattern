@@ -112,7 +112,7 @@ namespace GameSystems.UserInterfaceSystem
         private void OnCampUpgradeClick()
         {
             var energy = _camp.CampUpgradeCost;
-            if (energy < 0)
+            if (energy <= 0)
             {
                 GameFacade.Instance.ShowMessage("兵营已经是最高等级，无法升级");
                 return;
@@ -131,7 +131,7 @@ namespace GameSystems.UserInterfaceSystem
         private void OnWeaponUpgradeClick()
         {
             var energy = _camp.WeaponUpgradeCost;
-            if (energy < 0)
+            if (energy <= 0)
             {
                 GameFacade.Instance.ShowMessage("武器已经是最高等级，无法升级");
                 return;

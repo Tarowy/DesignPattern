@@ -48,6 +48,8 @@ namespace GameSystems.CharacterSystem
                 //如果在构造方法里就构造状态机，状态机刚加入时需要调用DoBeforeEnter，其中的使用组件还未赋值会导致报错
                 MakeFsm();
             }
+
+            get => characterObject;
         }
 
         public Weapon.Weapon Weapon
@@ -59,6 +61,7 @@ namespace GameSystems.CharacterSystem
                 //需要将加载的资源实例化才能设置父子关系
                 UnityTools.Attach(UnityTools.FindChild(characterObject, "weapon-point"), weapon.WeaponPrefab);
             }
+            get => weapon;
         }
 
         public abstract void UpdateFsmAI(List<Character> characters);

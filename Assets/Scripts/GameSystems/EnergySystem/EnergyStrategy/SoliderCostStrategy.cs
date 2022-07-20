@@ -61,6 +61,9 @@ namespace GameSystems.EnergySystem.EnergyStrategy
                 case SoliderType.Captain:
                     energy = 20;
                     break;
+                //俘虏固定十点能量消耗
+                case SoliderType.Captive:
+                    return 10;
                 default:
                     Debug.LogError($"无法获取{soliderType}类型所需的升级费用");
                     break;

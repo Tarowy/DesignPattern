@@ -9,15 +9,15 @@ namespace GameSystems.CampSystem
 {
     public abstract class Camp
     {
-        protected string campName;
-        protected string campSprite;
-        protected GameObject prefab;
-        protected SoliderType soliderType;
-        protected Vector3 musterPosition; //集合点
+        protected string campName; //兵营名称
+        protected string campSprite; //兵营图片
+        protected GameObject prefab; //兵营的实体
+        protected SoliderType soliderType; //根据类型和等级获得能量耗费
+        protected Vector3 musterPosition; //兵营生产出的士兵位置
         protected float trainTime;
 
         protected float trainLeftTime;
-        protected Queue<TrainCampCommand> commands;
+        protected Queue<TrainCampCommand> commands; //命令模式
         
         //能量花费不是一直变动的，所以可以直接保存花费的变量减少策略的调用次数
         protected EnergyCostStrategy energyCostStrategy;
@@ -72,7 +72,7 @@ namespace GameSystems.CampSystem
         public abstract WeaponType WeaponType { get; }
         public abstract int CampUpgradeCost { get; }
         public abstract int WeaponUpgradeCost { get; }
-        public abstract int TrainCost { get; }
+        public abstract int TrainCost { set; get; }
 
         public int CommandCount => commands.Count;
         public float TrainLeftTime => trainLeftTime;

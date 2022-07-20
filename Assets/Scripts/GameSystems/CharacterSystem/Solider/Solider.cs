@@ -11,7 +11,8 @@ namespace GameSystems.CharacterSystem.Solider
     {
         Rookie,
         Sergeant,
-        Captain
+        Captain,
+        Captive
     }
 
     public abstract class Solider : Character

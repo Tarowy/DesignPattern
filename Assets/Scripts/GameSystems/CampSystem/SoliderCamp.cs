@@ -54,7 +54,11 @@ namespace GameSystems.CampSystem
             }
         }
 
-        public override int TrainCost => trainCost;
+        public override int TrainCost
+        {
+            get => trainCost;
+            set => trainCost = value;
+        }
 
         //训练士兵
         public override void Train()
